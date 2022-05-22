@@ -89,18 +89,18 @@ EscBattery::Run()
 			return;
 		}
 
-		float average_voltage_v = 0.0f;
+		float max_voltage = 0.0f;
 		float total_current_a = 0.0f;
 
 		for (unsigned i = 0; i < esc_status.esc_count; ++i) {
-			average_voltage_v += esc_status.esc[i].esc_voltage;
+			if (esc_status.esc[i].esc_voltage > max_voltage) {
+				max_voltage = esc_status.esc[i].esc_voltage;
+			}
 			total_current_a += esc_status.esc[i].esc_current;
 		}
 
-		average_voltage_v /= esc_status.esc_count;
-
 		_battery.setConnected(true);
-		_battery.updateVoltage(average_voltage_v);
+		_battery.updateVoltage(max_voltage);
 		_battery.updateCurrent(total_current_a);
 		_battery.updateAndPublishBatteryStatus(esc_status.timestamp);
 	}
