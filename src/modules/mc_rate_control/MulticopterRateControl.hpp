@@ -43,6 +43,7 @@
 #include <px4_platform_common/posix.h>
 #include <px4_platform_common/px4_work_queue/ScheduledWorkItem.hpp>
 #include <lib/systemlib/mavlink_log.h>
+#include <mathlib/math/filter/LowPassFilter2p.hpp>
 #include <uORB/Publication.hpp>
 #include <uORB/PublicationMulti.hpp>
 #include <uORB/Subscription.hpp>
@@ -145,6 +146,9 @@ private:
 
 	int8_t _landing_gear{landing_gear_s::GEAR_DOWN};
 
+	math::LowPassFilter2p<float> _yaw_filter{1000, 30.0f};
+
+
 	DEFINE_PARAMETERS(
 		(ParamFloat<px4::params::MC_ROLLRATE_P>) _param_mc_rollrate_p,
 		(ParamFloat<px4::params::MC_ROLLRATE_I>) _param_mc_rollrate_i,
@@ -166,6 +170,9 @@ private:
 		(ParamFloat<px4::params::MC_YAWRATE_D>) _param_mc_yawrate_d,
 		(ParamFloat<px4::params::MC_YAWRATE_FF>) _param_mc_yawrate_ff,
 		(ParamFloat<px4::params::MC_YAWRATE_K>) _param_mc_yawrate_k,
+
+		(ParamFloat<px4::params::MC_YAW_CUTOFF>) _param_mc_yaw_cutoff,
+
 
 		(ParamFloat<px4::params::MPC_MAN_Y_MAX>) _param_mpc_man_y_max,			/**< scaling factor from stick to yaw rate */
 
