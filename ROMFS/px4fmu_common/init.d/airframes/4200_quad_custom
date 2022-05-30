@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+# @name Custom Quad
+#
+# @type Quadrotor x
+# @class Copter
+#
+# @output MAIN1 motor 1
+# @output MAIN2 motor 2
+# @output MAIN3 motor 3
+# @output MAIN4 motor 4
+# @output MAIN5 feed-through of RC AUX1 channel
+# @output MAIN6 feed-through of RC AUX2 channel
+#
+# @output AUX1 feed-through of RC AUX1 channel
+# @output AUX2 feed-through of RC AUX2 channel
+# @output AUX3 feed-through of RC AUX3 channel
+# @output AUX4 feed-through of RC FLAPS channel
+#
+# @maintainer Gus Meyer <gusmeyer14@gmail.com>
+#
+
+. ${R}etc/init.d/rc.mc_defaults
+
+param set-default CA_ROTOR_COUNT 4
+param set-default CA_ROTOR0_PX 0.15
+param set-default CA_ROTOR0_PY 0.15
+param set-default CA_ROTOR1_PX -0.15
+param set-default CA_ROTOR1_PY -0.15
+param set-default CA_ROTOR2_PX 0.15
+param set-default CA_ROTOR2_PY -0.15
+param set-default CA_ROTOR2_KM -0.05
+param set-default CA_ROTOR3_PX -0.15
+param set-default CA_ROTOR3_PY 0.15
+param set-default CA_ROTOR3_KM -0.05
+
+param set-default BAT1_N_CELLS 6
+param set-default BAT1_SOURCE 2
+param set-default BAT1_V_CHARGED 4.15
+param set-default BAT1_V_EMPTY 3.5
+param set-default DSHOT_CONFIG 300
+param set-default DSHOT_MIN 0.05
+# Telem 4 port (J6)
+param set-default DSHOT_TEL_CFG 104
+param set-default EKF2_HGT_MODE 1
+# Telem 2 port (J1)
+param set-default MAV_1_CONFIG 102
+# OSD on Telem 2
+param set-default MAV_1_MODE 3
+
+param set-default MC_ACRO_EXPO 0.2
+param set-default MC_ACRO_EXPO_Y 0.2
+
+# Tuning
+param set-default MC_PITCHRATE_K 0.5
+param set-default MC_ROLLRATE_K 0.5
+param set-default MC_YAWRATE_K 0.5
+
+param set-default MOT_POLE_COUNT 22
+
+param set-default MPC_MANTHR_MIN 0.0
+
+# Baud rate for OSD
+param set-default SER_TEL2_BAUD 115200

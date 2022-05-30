@@ -53,6 +53,7 @@ MulticopterRateControl::MulticopterRateControl(bool vtol) :
 	parameters_updated();
 }
 
+
 MulticopterRateControl::~MulticopterRateControl()
 {
 	perf_free(_loop_perf);
@@ -94,6 +95,9 @@ MulticopterRateControl::parameters_updated()
 				  radians(_param_mc_acro_y_max.get()));
 
 	_actuators_0_circuit_breaker_enabled = circuit_breaker_enabled_by_val(_param_cbrk_rate_ctrl.get(), CBRK_RATE_CTRL_KEY);
+
+	_yaw_filter.set_cutoff_frequency(1000.f, _param_mc_yaw_cutoff.get());
+	_yaw_filter.reset(_rates_setpoint(2));
 }
 
 void
@@ -219,7 +223,11 @@ MulticopterRateControl::Run()
 			}
 
 			// run rate controller
-			const Vector3f att_control = _rate_control.update(rates, _rates_sp, angular_accel, dt, _maybe_landed || _landed);
+			Vector3f att_control = _rate_control.update(rates, _rates_setpoint, angular_accel, dt, _maybe_landed || _landed);
+
+			// Custom yaw filter
+			const float yaw_rate_sp = _yaw_filter.apply(att_control(2));
+			att_control(2) = yaw_rate_sp;
 
 			// publish rate controller status
 			rate_ctrl_status_s rate_ctrl_status{};

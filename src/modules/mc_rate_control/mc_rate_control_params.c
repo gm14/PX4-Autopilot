@@ -281,6 +281,17 @@ PARAM_DEFINE_FLOAT(MC_YAWRATE_FF, 0.0f);
  */
 PARAM_DEFINE_FLOAT(MC_YAWRATE_K, 1.0f);
 
+
+/**
+ * Yaw filter cutoff frequency
+ * @min 0.0
+ * @max 60.0
+ * @decimal 1
+ * @increment 0.1
+ * @group Multicopter Rate Control
+ */
+PARAM_DEFINE_FLOAT(MC_YAW_CUTOFF, 30.0f);
+
 /**
  * Max acro roll rate
  *

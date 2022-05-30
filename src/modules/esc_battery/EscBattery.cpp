@@ -89,15 +89,15 @@ EscBattery::Run()
 			return;
 		}
 
-		float average_voltage_v = 0.0f;
+		float max_voltage = 0.0f;
 		float total_current_a = 0.0f;
 
 		for (unsigned i = 0; i < esc_status.esc_count; ++i) {
-			average_voltage_v += esc_status.esc[i].esc_voltage;
+			if (esc_status.esc[i].esc_voltage > max_voltage) {
+				max_voltage = esc_status.esc[i].esc_voltage;
+			}
 			total_current_a += esc_status.esc[i].esc_current;
 		}
-
-		average_voltage_v /= esc_status.esc_count;
 
 		const bool connected = true;
 		const int priority = 0;
@@ -107,7 +107,7 @@ EscBattery::Run()
 
 		_battery.updateBatteryStatus(
 			esc_status.timestamp,
-			average_voltage_v,
+			max_voltage,
 			total_current_a,
 			connected,
 			battery_status_s::BATTERY_SOURCE_ESCS,
